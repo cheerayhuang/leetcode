@@ -110,6 +110,14 @@ int main() {
     }
     cout << s.isSameTree(t3, t4) << endl;
 
+    TreeNode *t5 = new TreeNode(1);
+    TreeNode *t6 = new TreeNode(6);
+
+    t5->left = new TreeNode(2);
+    t6->right = new TreeNode{2};
+
+    cout << s.isSameTree(t5, t6) << endl;
+
     return 0;
 }
 
