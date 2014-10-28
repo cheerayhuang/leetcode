@@ -51,12 +51,16 @@ void Solution::MidOrderIterate(TreeNode *t) {
 
     if (t->left) {
         MidOrderIterate(t->left);
+    } else {
+        mid_order_.push_back(-1);
     }
 
     mid_order_.push_back(t->val);
 
     if (t->right) {
         MidOrderIterate(t->right);
+    } else {
+        mid_order_.push_back(-1);
     }
 }
 
@@ -68,9 +72,14 @@ void Solution::PrevOrderIterate(TreeNode *t) {
     prev_order_.push_back(t->val);
     if (t->left) {
         PrevOrderIterate(t->left);
+    } else {
+        prev_order_.push_back(-1);
     }
+
     if (t->right) {
         PrevOrderIterate(t->right);
+    } else {
+        prev_order_.push_back(-1);
     }
 }
 
