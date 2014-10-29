@@ -25,10 +25,6 @@ struct TreeNode {
 };
 
 class Solution {
-private:
-    vector<int>  mid_order_;
-    vector<int> prev_order_;
-
 
 public:
     typedef struct {
@@ -56,7 +52,7 @@ public:
             if (t->right) {
                 q.push({t->right, s + t->right->val});
             } 
-            else if (!t->left && !t->right && s == sum) {
+            if (!t->left && !t->right && s == sum) {
                 return true;
             }
         }
