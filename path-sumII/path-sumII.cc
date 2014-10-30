@@ -88,9 +88,16 @@ void InitializeTree(TreeNode *&t, queue<int> vals) {
     while (!vals.empty()) {
         auto tmp = q.front(); 
         q.pop();
-        *tmp = new TreeNode(vals.front());
-        q.push(&((*tmp)->left));
-        q.push(&((*tmp)->right));
+        auto v = vals.front();
+        if (v != -1000) {
+            *tmp = new TreeNode(vals.front());
+            q.push(&((*tmp)->left));
+            q.push(&((*tmp)->right));
+        }
+        else {
+            *tmp = nullptr;
+        }
+        
         vals.pop();
     }
 }
@@ -99,14 +106,16 @@ int main() {
     Solution s;
     
     TreeNode *t; 
-    InitializeTree(t, queue<int>({1, -2, -3, 1, 3, -2, -1000, -1}));
+    InitializeTree(t, queue<int>({5, 4, 8, 11, -1000, 13, 4, 7, 2, -1000, -1000, 5, 1}));
 
-    auto r = s.pathSum(t, 2);
+    auto r = s.pathSum(t, 22);
 
-    for (auto &i : r[0]) {
-        cout << i << ' ';
+    for (auto &v : r) {
+        for (auto &i : v) {
+            cout << i << ' ';
+        }
+        cout << endl;
     }
-    cout << endl;
 
     return 0;
 }
