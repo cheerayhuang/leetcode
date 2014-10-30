@@ -50,6 +50,10 @@ int main() {
     unordered_set<string> u {"he", "lo", "o" , "ell"};
 
     cout << s.wordBreak("hello", u) << endl;
+
+    unordered_set<string> uu {"a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"};
+
+    cout << s.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", uu) << endl;
     
     return 0;
 }
