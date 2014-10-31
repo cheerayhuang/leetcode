@@ -38,9 +38,9 @@ private:
             string prefix = string(s, 0, i+1); 
             if (dict.find(prefix) != dict.end()) {
                 result_.push_back(prefix);        
-                //auto d = dict;
-                //d.erase(prefix);
-                Break(string(s, i+1), dict);  
+                auto d = dict;
+                d.erase(prefix);
+                Break(string(s, i+1), d);  
                 result_.pop_back();
             }
         }
@@ -64,14 +64,15 @@ int main() {
     /*unordered_set<string> u {"a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"};
 
     auto res =  s.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", u); */
-    
 
     /*unordered_set<string> u {"cat", "cats", "and", "sand", "dog"};
     auto res = s.wordBreak("catsanddog", u);*/
 
-    unordered_set<string> u {"h", "cats", "and", "sand", "dog"};
-    auto res = s.wordBreak("hh", u);
+    /*unordered_set<string> u {"h", "cats", "and", "sand", "dog"};
+    auto res = s.wordBreak("hh", u);*/
 
+    unordered_set<string> u {"aaaa", "aa", "a"};
+    auto res = s.wordBreak("aaaaaaa", u);
 
     for (auto & s : res) {
         cout << s << "|";
