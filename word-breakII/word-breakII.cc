@@ -24,61 +24,52 @@ class Solution {
 
 public:
     vector<string> wordBreak(string s, unordered_set<string> &dict) {
-        vector<vector<int> > f(s.size());
-        vector<int> point(s.size(), -1);
+        vector<int> point(s.size());
 
         for (string::size_type i = 0; i < s.size(); ++i) {
-            string prefix = string(s, 0, i+1);
-            if (dict.find(prefix) != dict.end()) {
-                f[i].push_back(-1);
+            if (dict.find(string(s, 0, i+1)) != dict.end()) {
                 ++point[i];
             }
             
             for(string::size_type j = 0; j < i; ++j) {
-                if (point[j] >= 0 && dict.find(string(s, j+1, i-j)) != dict.end()) {
-                        for (int k = 0; k <= point[j]; ++k) {
-                           f[i].push_back(j);
-                        }
-                        point[i] += point[j]+1;
+                if (point[j] > 0 && dict.find(string(s, j+1, i-j)) != dict.end()) {
+                        point[i] += point[j];
                 } 
             }
         }
         
-        /*cout << "point: ";
-        for(auto &i : point) {
-            cout << i << " ";
-        }
-        cout << endl;
-
-        for(auto &i : f) {
-            cout << "f: ";
-            for (auto &j : i) {
-                cout << j << " ";
-            }
-            cout << endl;
-        }*/    
-
+        deque<string> result;
         deque<string> solution;
-        int end = s.size()-1;
-            
-        while (point[end] >= 0) {
-            deque<string> result;
+        if (!point[s.size()-1]) {
+            return vector<string>();            
+        }
 
-            auto i = f[end][point[end]];
-            auto j = end;
-            while (true) {
-                result.push_front(string(s, i+1, j-i));  
-                --point[j]; 
-                j = i; 
-                if (j == -1) break;
-                i = f[j][point[j]];
+        while(point[s.size()-1]) {
+            int j = s.size()-1;
+            while(j > 0) {
+                auto i = j;
+                for (; i > 0; --i) {
+                    string str = string(s, i, j-i+1);
+                    if (point[i-1] && dict.find(str) != dict.end()) {
+                            result.push_front(str);
+                            --point[j];
+                            j = i-1;
+                            break;
+                    }
+                }
+                if (i == 0 && dict.find(string(s, i, j-i+1)) != dict.end()) {
+                    --point[j];
+                    result.push_front(string(s, i, j-i+1));
+                    j = 0;
+                }
             }
 
-            string tmp_str;
-            for(auto &str : result) {
-                tmp_str += str + " ";                    
+            string str; 
+            for(auto &word : result) {
+                str += word + " ";
             }
-            solution.push_front(string(tmp_str.begin(), tmp_str.end()-1));
+            solution.push_front(string(str.begin(), str.end()-1));
+            result.clear();
         }
 
         return vector<string>(solution.begin(), solution.end());
@@ -89,9 +80,8 @@ int main() {
 
     Solution s;
 
-    unordered_set<string> u {"a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"};
-
-    auto res =  s.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", u);
+    unordered_set<string> u {"a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"}; 
+    auto res =  s.wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab", u); 
 
     /*unordered_set<string> u {"cat", "cats", "and", "sand", "dog"};
     auto res = s.wordBreak("catsanddog", u);*/
