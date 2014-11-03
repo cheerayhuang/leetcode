@@ -46,7 +46,7 @@ private:
     }
 
 public:
-    vector<vector<string> > SolveNQueen(int n) {
+    vector<vector<string> > solveNQueens(int n) {
         board_.clear(); 
         column_.assign(n, true);
         total_ = 0;
@@ -60,7 +60,7 @@ public:
 int main() {
     Solution s;
 
-    auto result = s.SolveNQueen(8);
+    auto result = s.solveNQueens(8);
 
     for(auto &i : result) {
         for (auto &j : i) {
