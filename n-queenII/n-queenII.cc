@@ -37,7 +37,7 @@ private:
     }
 
 public:
-    int SolveNQueen(int n) {
+    int totalNQueens(int n) {
         board.clear(); 
         column.assign(n, true);
         total = 0;
@@ -50,9 +50,9 @@ public:
 int main() {
     Solution s;
 
-    cout << s.SolveNQueen(8) << endl;
-    cout << s.SolveNQueen(1) << endl;
-    cout << s.SolveNQueen(4) << endl;
+    cout << s.totalNQueens(8) << endl;
+    cout << s.totalNQueens(1) << endl;
+    cout << s.totalNQueens(4) << endl;
 
     return 0;
 }
