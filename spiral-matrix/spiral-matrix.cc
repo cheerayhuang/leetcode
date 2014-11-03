@@ -29,15 +29,23 @@ public:
         director_ = 0; 
         auto cur_x = 0; 
         auto cur_y = 0;
-        auto n = matrix.size();
         result_.clear();
 
-        for (auto i = 1; i <= n*n; ++i) {
+        auto n = matrix.size();
+        if (n == 0) {
+            return result_;
+        }
+        auto m = matrix[0].size();
+        if (m == 0) {
+            return result_;
+        }
+
+        for (auto i = 1; i <= n*m; ++i) {
             result_.push_back(matrix[cur_x][cur_y]);
             matrix[cur_x][cur_y] = 0;
             auto next_x = cur_x + directors_[director_].first;
             auto next_y = cur_y + directors_[director_].second;
-            if (next_x < 0 || next_x >= n || next_y < 0 || next_y >= n || matrix[next_x][next_y] == 0) {
+            if (next_x < 0 || next_x >= n || next_y < 0 || next_y >= m || matrix[next_x][next_y] == 0) {
                 director_ = (director_ + 1) % 4;
                 cur_x += directors_[director_].first;
                 cur_y += directors_[director_].second; 
@@ -53,12 +61,16 @@ public:
 
 int main() {
 
-    vector<vector<int> > m { 
+    /*vector<vector<int> > m { 
         {1, 2, 3, 4, 5}, 
         {6, 7, 8, 9, 10}, 
         {11, 12, 13, 14, 15},
         {16, 17, 18, 19, 20},
         {21, 22, 23, 24, 25}
+    };*/
+
+    vector<vector<int> > m {
+        {1}
     };
 
     Solution s;
