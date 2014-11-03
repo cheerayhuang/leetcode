@@ -31,17 +31,17 @@ public:
         result_.assign(n, vector<int>(n, 0));
 
         for (auto i = 1; i <= n*n; ++i) {
-                result_[cur_x][cur_y] = i;
-                auto next_x = cur_x + directors_[director_].first;
-                auto next_y = cur_y + directors_[director_].second;
-                if (next_x < 0 || next_x >= n || next_y < 0 || next_y >= n || result_[next_x][next_y]) {
-                    director_ = (director_ + 1) % 4;
-                    cur_x += directors_[director_].first;
-                    cur_y += directors_[director_].second; 
-                } else {
-                    cur_x = next_x;
-                    cur_y = next_y;
-                }
+            result_[cur_x][cur_y] = i;
+            auto next_x = cur_x + directors_[director_].first;
+            auto next_y = cur_y + directors_[director_].second;
+            if (next_x < 0 || next_x >= n || next_y < 0 || next_y >= n || result_[next_x][next_y]) {
+                director_ = (director_ + 1) % 4;
+                cur_x += directors_[director_].first;
+                cur_y += directors_[director_].second; 
+            } else {
+                cur_x = next_x;
+                cur_y = next_y;
+            }
         }
 
         return result_;
