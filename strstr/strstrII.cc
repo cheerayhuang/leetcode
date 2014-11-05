@@ -13,6 +13,8 @@
 
 #include <iostream> 
 #include <vector>
+#include <fstream>
+#include <sys/time.h>
 
 using namespace std; 
 
@@ -25,12 +27,20 @@ public:
 
         string str(haystack); 
         string substr(needle);
-        if (str.size() < substr.size()) {
+        auto len_str = str.size();
+        auto len_substr = substr.size();
+
+        if (len_str < len_substr) {
             return -1;
         }
 
-        vector<int> back_trace(substr.size(), -1);
-        for (int beg = 1; beg < back_trace.size(); ++beg) {
+        if (len_substr == 0) {
+            return 0;
+        }
+
+        vector<int> back_trace(len_substr, -1);
+        auto len_back_trace = back_trace.size();
+        for (int beg = 1; beg < len_back_trace; ++beg) {
             int j = beg - 1;
             while (j != -1 && substr[beg] != substr[back_trace[j]+1]) {
                 j = back_trace[j];
@@ -42,11 +52,11 @@ public:
         }
     
         auto beg_substr = 0;
-        for (int beg = 0; beg < str.size(); ++beg) {
+        for (int beg = 0; beg < len_str; ++beg) {
             if (substr[beg_substr] == str[beg]) {
                 ++beg_substr;
-                if (beg_substr == substr.size()) {
-                    return beg - substr.size() + 1;
+                if (beg_substr == len_substr) {
+                    return beg - len_substr + 1;
                 }
             } else {
                 if (beg_substr != 0) {
@@ -63,8 +73,23 @@ public:
 int main() {
     Solution s;
 
-    cout << s.strStr("Hellow", "ll") << endl;
-    cout << s.strStr("aaaaaaaaaaaab", "aaaab") << endl;
+    string str; 
+    string substr;
+
+    ifstream fin("./1.txt");
+
+    timeval start, end;
+
+    gettimeofday(&start, nullptr);
+
+    while(fin >> str >> substr) {
+        cout << s.strStr(str.c_str(), substr.c_str()) << endl;
+    }
+
+    gettimeofday(&end, nullptr);
+
+    cout << (end.tv_sec-start.tv_sec) * 1000000 + end.tv_usec - start.tv_usec << endl; 
+    fin.close();
 
     return 0;
 }

@@ -12,8 +12,15 @@
  **************************************************************************/
 
 #include <iostream> 
+#include <fstream>
+#include <sys/time.h>
 
 using namespace std; 
+
+//struct timeval {
+//    time_t      tv_sec;     /* seconds */
+//    suseconds_t tv_usec;    /* microseconds */
+//}; 
 
 class Solution {
 public:
@@ -39,7 +46,23 @@ public:
 int main() {
     Solution s;
 
-    cout << s.strStr("hello" ,"ll") << endl;
+    string str; 
+    string substr;
+
+    ifstream fin("./1.txt");
+
+    timeval start, end;
+
+    gettimeofday(&start, nullptr);
+
+    while(fin >> str >> substr) {
+        cout << s.strStr(str.c_str(), substr.c_str()) << endl;
+    }
+
+    gettimeofday(&end, nullptr);
+
+    cout << (end.tv_sec-start.tv_sec) * 1000000 + end.tv_usec - start.tv_usec << endl; 
+    fin.close();
 
     return 0;
 }
