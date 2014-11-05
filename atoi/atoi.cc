@@ -22,42 +22,44 @@ public:
     int atoi(const char *str) {
         string s(str); 
 
-        auto p = s.find_first_of("0123456789");
-        if (p == string::npos) {
-            return 0;
-        }
-    
-        auto i = 0;
-        while(p != 0 && (s[p-1] == '-' || s[p-1] == '+')) {
-            --p;
-            ++i;
-        }
-        if (i > 1) {
+        auto beg = s.find_first_of("+-0123456789");
+        if (beg == string::npos || beg != s.find_first_not_of(' ')) {
             return 0;
         }
 
-        auto p_end = s.find_first_not_of("0123456789", p+1);
-        if (p_end == string::npos) {
-            p_end = s.size();
-        }
-
-        auto tmp = s.substr(p, p_end-p); 
-        string str_int_max;
-        if (tmp[0] == '-') {
-            str_int_max.assign(to_string(INT_MIN));
+        size_t end;
+        if (s[beg] == '-' || s[beg] == '+') {
+            end = s.find_first_not_of("0123456789", beg+1);
+            if (end == beg+1) {
+                return 0;
+            }
         }
         else {
-            str_int_max.assign(to_string(INT_MAX));
+            end = s.find_first_not_of("0123456789", beg);
+        }
+
+        if (end == string::npos) {
+            end = s.size();
+        }
+
+        auto tmp = s.substr(beg, end-beg);
+
+        string int_limit; 
+        if (tmp[0] == '-') {
+            int_limit = to_string(INT_MIN);    
+        }
+        else {
+            int_limit = to_string(INT_MAX);
             if (tmp[0] == '+') {
-                str_int_max.insert(str_int_max.begin(), '+');
+                int_limit.insert(int_limit.begin(), '+');
             }
         }
 
-        if (tmp.size() > str_int_max.size() || (tmp.size() == str_int_max.size() && tmp.compare(str_int_max) > 0)) {
-            return stoi(str_int_max);    
+        if (tmp.size() > int_limit.size() || (tmp.size() == int_limit.size() && tmp.compare(int_limit) > 0)) {
+            return stoi(int_limit);
         }
-        
-        return stoi(s.substr(p, p_end-p));
+
+        return stoi(tmp);
     }
 };
 
