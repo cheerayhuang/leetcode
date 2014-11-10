@@ -13,9 +13,23 @@ private:
         long long denominator = 1;
         
         for (auto i = 1; i <= x; ++i) {
-            numerator *= (x-i+1);
+            // optimize multiplying
+            auto tmp_int = result[i-1];
+            
+            if (tmp_int % i == 0) {
+                result.push_back(tmp_int / i * (x-i+1));
+            }
+            else if ((x-i+1) % i == 0) {
+                result.push_back(tmp_int * ((x-i+1) / i));
+            }
+            else {
+                result.push_back(tmp_int * (x-i+1) / i);
+            }
+
+            // use this way, can only work for "n = 20"
+            /*numerator *= (x-i+1);
             denominator *= i;
-            result.push_back(numerator / denominator);
+            result.push_back(numerator / denominator);*/
         }
 
         return result;
@@ -37,7 +51,7 @@ int main() {
     Solution s; 
     ostream_iterator<int> os_iter(cout, " ");
 
-    auto res = s.generate(25);
+    auto res = s.generate(31);
     for (auto &r : res) {
         copy(r.begin(), r.end(), os_iter);
         cout << endl;

@@ -36,7 +36,7 @@ int main() {
     Solution s; 
     ostream_iterator<int> os_iter(cout, " ");
 
-    auto res = s.generate(2);
+    auto res = s.generate(34);
     for (auto &r : res) {
         copy(r.begin(), r.end(), os_iter);
         cout << endl;
